@@ -1194,8 +1194,7 @@ function Sidebar(props) {
         _react2.default.createElement(
           "h4",
           { className: "text-snippet" },
-          "Note ",
-          index + 1
+          note.body.split("\n")[0].replace("#", index + 1 + ".")
         )
       )
     );
