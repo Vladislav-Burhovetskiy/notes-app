@@ -1010,9 +1010,16 @@ function App() {
 
   function updateNote(text) {
     setNotes(function (oldNotes) {
-      return oldNotes.map(function (oldNote) {
-        return oldNote.id === currentNoteId ? { id: oldNote.id, body: text } : oldNote;
+      var lastNotes = [];
+      var oldNotesArray = oldNotes.filter(function (oldNote) {
+        if (oldNote.id !== currentNoteId) {
+          return oldNote;
+        } else {
+          lastNotes.push({ id: oldNote.id, body: text });
+        }
       });
+
+      return lastNotes.concat(oldNotesArray);
     });
   }
 
