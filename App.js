@@ -6,10 +6,18 @@ import Split from "react-split";
 import { nanoid } from "nanoid";
 
 export default function App() {
-  const [notes, setNotes] = React.useState([]);
+  localStorage.clear();
+
+  const [notes, setNotes] = React.useState(
+    JSON.parse(localStorage.getItem("notes")) || []
+  );
   const [currentNoteId, setCurrentNoteId] = React.useState(
     (notes[0] && notes[0].id) || ""
   );
+
+  React.useEffect(() => {
+    localStorage.setItem("notes", JSON.stringify(notes));
+  }, [notes]);
 
   function createNewNote() {
     const newNote = {
@@ -24,7 +32,7 @@ export default function App() {
     setNotes((oldNotes) =>
       oldNotes.map((oldNote) => {
         return oldNote.id === currentNoteId
-          ? { oldNote, body: text }
+          ? { id: oldNote.id, body: text }
           : oldNote;
       })
     );
