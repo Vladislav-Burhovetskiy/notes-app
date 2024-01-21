@@ -979,7 +979,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 function App() {
-  localStorage.clear();
+  // localStorage.clear();
 
   var _React$useState = _react2.default.useState(function () {
     return JSON.parse(localStorage.getItem("notes")) || [];
@@ -1023,6 +1023,15 @@ function App() {
     });
   }
 
+  function deleteNote(event, noteId) {
+    event.stopPropagation();
+    setNotes(function (oldNotes) {
+      return oldNotes.filter(function (note) {
+        return note.id !== noteId;
+      });
+    });
+  }
+
   function findCurrentNote() {
     return notes.find(function (note) {
       return note.id === currentNoteId;
@@ -1039,7 +1048,8 @@ function App() {
         notes: notes,
         currentNote: findCurrentNote(),
         setCurrentNoteId: setCurrentNoteId,
-        newNote: createNewNote
+        newNote: createNewNote,
+        deleteNote: deleteNote
       }),
       currentNoteId && notes.length > 0 && _react2.default.createElement(_Editor2.default, { currentNote: findCurrentNote(), updateNote: updateNote })
     ) : _react2.default.createElement(
@@ -1202,6 +1212,16 @@ function Sidebar(props) {
           "h4",
           { className: "text-snippet" },
           note.body.split("\n")[0].replace("#", index + 1 + ".")
+        ),
+        _react2.default.createElement(
+          "button",
+          {
+            className: "delete-btn",
+            onClick: function onClick(event) {
+              return props.deleteNote(event, note.id);
+            }
+          },
+          _react2.default.createElement("i", { className: "gg-trash trash-icon" })
         )
       )
     );

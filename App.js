@@ -6,7 +6,7 @@ import Split from "react-split";
 import { nanoid } from "nanoid";
 
 export default function App() {
-  localStorage.clear();
+  // localStorage.clear();
 
   const [notes, setNotes] = React.useState(
     () => JSON.parse(localStorage.getItem("notes")) || []
@@ -35,12 +35,21 @@ export default function App() {
         if (oldNote.id !== currentNoteId) {
           return oldNote;
         } else {
-          lastNotes.push({ id: oldNote.id, body: text })
+          lastNotes.push({ id: oldNote.id, body: text });
         }
       });
-      
+
       return lastNotes.concat(oldNotesArray);
     });
+  }
+
+  function deleteNote(event, noteId) {
+    event.stopPropagation();
+    setNotes((oldNotes) =>
+      oldNotes.filter((note) => {
+        return note.id !== noteId;
+      })
+    );
   }
 
   function findCurrentNote() {
@@ -60,6 +69,7 @@ export default function App() {
             currentNote={findCurrentNote()}
             setCurrentNoteId={setCurrentNoteId}
             newNote={createNewNote}
+            deleteNote={deleteNote}
           />
           {currentNoteId && notes.length > 0 && (
             <Editor currentNote={findCurrentNote()} updateNote={updateNote} />
