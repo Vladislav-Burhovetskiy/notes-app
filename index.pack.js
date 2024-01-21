@@ -981,7 +981,9 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 function App() {
   localStorage.clear();
 
-  var _React$useState = _react2.default.useState(JSON.parse(localStorage.getItem("notes")) || []),
+  var _React$useState = _react2.default.useState(function () {
+    return JSON.parse(localStorage.getItem("notes")) || [];
+  }),
       _React$useState2 = _slicedToArray(_React$useState, 2),
       notes = _React$useState2[0],
       setNotes = _React$useState2[1];
