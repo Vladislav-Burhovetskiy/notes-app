@@ -2,6 +2,7 @@ import React from "react";
 import ReactMde from "react-mde";
 import Showdown from "showdown";
 
+// for firebase { tempNoteText, setTempNoteText }
 export default function Editor({ currentNote, updateNote }) {
   const [selectedTab, setSelectedTab] = React.useState("write");
 
@@ -15,7 +16,8 @@ export default function Editor({ currentNote, updateNote }) {
   return (
     <section className="pane editor">
       <ReactMde
-        value={currentNote?.body}
+        //for firebase value={tempNoteText} onChange={setTempNoteText}
+        value={currentNote}
         onChange={updateNote}
         selectedTab={selectedTab}
         onTabChange={setSelectedTab}
